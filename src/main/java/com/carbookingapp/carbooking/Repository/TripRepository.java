@@ -4,23 +4,23 @@ import java.util.*;
 
 import com.carbookingapp.carbooking.Exceptions.NoRideFound;
 import com.carbookingapp.carbooking.Models.Driver;
-import com.carbookingapp.carbooking.Models.Location;;
+import com.carbookingapp.carbooking.Models.Location;
 
 public class TripRepository{
-  static Map<String, Driver> rider= new HashMap<>();
-  public static Map<String, Driver> getRider() {
+  private static Map<String, Driver> rider= new HashMap<>();
+  private static int userSearchRadius=5;
+ static List<Driver> driverList = DriverRepository.getDrivers();
+  public Map<String, Driver> getRider() {
     return rider;
-  }
-  static int userSearchRadius=5;
-    public synchronized static  List<Driver> findRide(String name, Location source, Location destination, Map<String, Driver> drivers)throws NoRideFound{
+    }  
+    public static synchronized List<Driver> findRide(String name, Location source, Location destination)throws NoRideFound{
       List<Driver> result = new ArrayList<>();
-      for (Driver cab : drivers.values()) {
+      for (Driver cab : driverList) {
         if (cab.getCurrentlocation().distance(source) <=userSearchRadius && !rider.containsValue(cab)) {
           result.add(cab);
           rider.put(name, cab);
           System.out.println(name+" booked "+cab.getName());
         }
-       
       }
       try {
         if(!rider.containsKey(name)){
@@ -32,7 +32,4 @@ public class TripRepository{
       
       return result;
       }
-
-      
-
 }
