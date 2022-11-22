@@ -13,13 +13,12 @@ public class TripRepository{
   public static Map<Driver, String> getRider() {
     return rider;
     }  
-    public synchronized List<Driver> findRide(String name, Location source, Location destination)throws NoRideFound{
+    public List<Driver> findRide(String name, Location source, Location destination)throws NoRideFound{
       List<Driver> result = new ArrayList<>();
       for (Driver cab : drivers) {
         if (cab.getCurrentlocation().distance(source) <=userSearchRadius && !rider.containsKey(cab)) {
           result.add(cab);
           rider.put(cab,name);
-          System.out.println(name+" booked "+cab.getName());
         }
       }
       try {
@@ -31,9 +30,19 @@ public class TripRepository{
       }
       return result;
       }
-      public String chooseRider(String username, Driver drivername){
-        if(getRider().containsValue(username)&& getRider().containsKey(drivername))
-        System.out.println(username+" booked "+drivername);
-     return null;
+      public synchronized void chooseRider(String username, String drivername ,Location source, Location destination){
+      List<Driver>  driversList = new LinkedList<>();
+        driversList = findRide(username, source, destination);
+        if(!driversList.isEmpty()){
+        final boolean allocedDriverName = driversList.stream().
+                                  anyMatch(x -> x.getName().equals(drivername));
+        if(allocedDriverName){
+          System.out.println("Hello "+username+" your booking on "+drivername+" successfull");
+        }
+        else{
+          System.out.println("Sorry, "+username+" "+drivername+" not available");
+          System.out.println("Instance you can book "+driversList.get(0).getName());
+          }
+      }
          }
 }
