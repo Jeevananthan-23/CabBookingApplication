@@ -1,24 +1,25 @@
 package com.carbookingapp.carbooking.Service;
 
-
 import java.util.*;
 
 import com.carbookingapp.carbooking.Models.Driver;
 import com.carbookingapp.carbooking.Repository.DriverRepository;
 
-public class DriverService  {
+public class DriverService {
   private static DriverRepository driverRepo;
   static List<Driver> drivers = new ArrayList<>();
+
   public DriverService() {
-    driverRepo= new DriverRepository();
+    driverRepo = new DriverRepository();
   }
-    public Driver addDriver(Driver driver){
-      driverRepo.addDrivers(driver);
-      return driver;
-    }
-    public static List<Driver> getDrivers(){
-      return drivers;
-    }
-   
-  
+
+  public Driver addDriver(Driver driver) {
+    driverRepo.addDrivers(driver);
+    return driver;
+  }
+
+  public static List<Driver> getDrivers() {
+    return drivers;
+  }
+
 }

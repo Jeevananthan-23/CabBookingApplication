@@ -11,18 +11,19 @@ public class TripService extends Thread {
   private static TripRepository tripRepo;
 
   @Override
-  public void run(){
+  public void run() {
     chooseRider(name, driverName);
   }
+
   public TripService(String name, Location source, Location destination, String driverName) {
-    this.name=name;
-    this.source=source;
-    this.destination=destination;
+    this.name = name;
+    this.source = source;
+    this.destination = destination;
     this.driverName = driverName;
     tripRepo = new TripRepository();
   }
 
-    public synchronized void chooseRider(String username, String drivername){
-        tripRepo.chooseRider(username, drivername , source, destination);
-       }
+  public synchronized void chooseRider(String username, String drivername) {
+    tripRepo.chooseRider(username, drivername, source, destination);
+  }
 }
