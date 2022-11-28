@@ -7,7 +7,7 @@ public class UserService {
     private UserRepository ur;
 
     public UserService() {
-        ur= new UserRepository();
+        ur = new UserRepository();
     }
 
     public User addUser(User user) {
