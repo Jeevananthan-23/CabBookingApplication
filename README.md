@@ -1,5 +1,6 @@
 # Cab Booking Application
 
+![CodeQL](https://github.com/Jeevananthan-23/CabBookingApplication/actions/workflows/codeql.yml/badge.svg)
 ### Description:
 
 Implement a cab booking application. Below are the expected features from the system.
