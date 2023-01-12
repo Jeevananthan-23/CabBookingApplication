@@ -7,7 +7,6 @@ import com.carbookingapp.carbooking.Repository.DriverRepository;
 
 public class DriverService {
   private static DriverRepository driverRepo;
-  static List<Driver> drivers = new ArrayList<>();
 
   public DriverService() {
     driverRepo = new DriverRepository();
@@ -19,7 +18,7 @@ public class DriverService {
   }
 
   public static List<Driver> getDrivers() {
-    return drivers;
+    return driverRepo.getDrivers();
   }
 
 }

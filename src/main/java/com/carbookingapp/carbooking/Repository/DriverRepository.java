@@ -6,7 +6,7 @@ import java.util.List;
 import com.carbookingapp.carbooking.Models.Driver;
 
 public class DriverRepository {
-    static List<Driver> drivers;
+    public List<Driver> drivers;
 
     public DriverRepository() {
         drivers = new ArrayList<>();
@@ -16,7 +16,7 @@ public class DriverRepository {
         drivers.add(driver);
     }
 
-    public static List<Driver> getDrivers() {
+    public List<Driver> getDrivers() {
         return drivers;
     }
 
