@@ -4,9 +4,9 @@ public class Location {
   public Double x;
   public Double y;
 
-  public Location(Double x, Double y) {
-    this.x = x;
-    this.y = y;
+  public Location(double d, double e) {
+    this.x = d;
+    this.y = e;
   }
 
   public Double distance(Location location2) {
