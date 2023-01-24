@@ -9,6 +9,7 @@ public class Location {
     this.y = e;
   }
 
+  // Euclidean distance formula
   public Double distance(Location location2) {
     return Math.sqrt(Math.pow(this.x - location2.x, 2) + Math.pow(this.y - location2.y, 2));
   }

@@ -9,7 +9,7 @@ import com.carbookingapp.carbooking.Service.DriverService;
 import com.carbookingapp.carbooking.Service.TripService;
 import com.carbookingapp.carbooking.Service.UserService;
 
-public class CarbookingApplication {
+public class CarBookingApplication {
 	public static void main(String[] args) {
 		User user = new User("Abhishek", Gender.M, 23);
 		User user2 = new User("Rahul", Gender.M, 29);

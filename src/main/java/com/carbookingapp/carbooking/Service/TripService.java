@@ -1,5 +1,6 @@
 package com.carbookingapp.carbooking.Service;
 
+import com.carbookingapp.carbooking.Exceptions.NoRideFound;
 import com.carbookingapp.carbooking.Models.Location;
 import com.carbookingapp.carbooking.Repository.TripRepository;
 
@@ -23,7 +24,11 @@ public class TripService extends Thread {
     tripRepo = new TripRepository();
   }
 
-  public synchronized void chooseRider(String username, String drivername) {
-    tripRepo.chooseRider(username, drivername, source, destination);
+  public void chooseRider(String username, String drivername) {
+    try {
+      tripRepo.chooseRider(username, drivername, source, destination);
+    } catch (NoRideFound e) {
+      System.out.println(e.getMessage());
+    }
   }
 }

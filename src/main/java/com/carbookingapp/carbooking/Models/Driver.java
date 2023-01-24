@@ -64,5 +64,4 @@ public class Driver {
                 ",distance=" + currentlocation +
                 '}';
     }
-
 }

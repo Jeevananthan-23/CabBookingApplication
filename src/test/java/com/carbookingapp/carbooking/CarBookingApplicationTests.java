@@ -2,7 +2,6 @@ package com.carbookingapp.carbooking;
 
 import java.util.List;
 
-import com.carbookingapp.carbooking.Repository.DriverRepository;
 import org.junit.jupiter.api.Test;
 
 import com.carbookingapp.carbooking.Models.Location;
@@ -16,10 +15,9 @@ import com.carbookingapp.carbooking.Service.UserService;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CarbookingApplicationTests {
-
+class CarBookingApplicationTests {
 	@Test
-	public void testChooseRider() throws Exception {
+	public void testChooseRider() {
 
 		UserService uService = new UserService();
 
@@ -64,7 +62,7 @@ class CarbookingApplicationTests {
 	}
 
 	@Test
-	public void testFindRide() throws Exception {
+	public void testFindRide() {
 
 		UserService uService = new UserService();
 
@@ -97,5 +95,4 @@ class CarbookingApplicationTests {
 		List<Driver> ride3 = repository.findRide("Nandini", new Location(15, 6), new Location(20, 4));
 		assertTrue(ride3.isEmpty());
 	}
-
 }
