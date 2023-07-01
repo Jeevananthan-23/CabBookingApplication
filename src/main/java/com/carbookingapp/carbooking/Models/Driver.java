@@ -60,8 +60,8 @@ public class Driver {
         return "{ Drivername='" + name + '\'' +
                 ", gender=" + gender +
                 ", age=" + age +
-                ",Vehicel=" + car +
-                ",distance=" + currentlocation +
+                ", Vehicel=" + car +
+                ", distance=" + currentlocation +
                 '}';
     }
 }

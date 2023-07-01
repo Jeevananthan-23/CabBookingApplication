@@ -8,7 +8,7 @@ public class UserRepository {
     public UserRepository() {
         this.users = new ArrayList<>();
     }
-    public List<User> getUser() {
+    public List<User> getUsers() {
         return users;
     }
 

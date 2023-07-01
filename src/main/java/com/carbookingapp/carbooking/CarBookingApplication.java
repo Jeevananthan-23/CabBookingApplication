@@ -30,12 +30,12 @@ public class CarBookingApplication {
 		dService.addDriver(driver3);
 		System.out.println(user);
 		System.out.println(driver);
-		TripService trip1 = new TripService(user.getName(), new Location(10.0, 6.0), new Location(20.0, 1.0),
-				driver.getName());
-		TripService trip2 = new TripService(user2.getName(), new Location(10.0, 6.0), new Location(15.0, 3.0),
-				driver.getName());
-		TripService trip3 = new TripService(user3.getName(), new Location(10.0, 6.0), new Location(20.0, 4.0),
-				driver.getName());
+		TripService trip1 = new TripService(user, new Location(10.0, 6.0), new Location(20.0, 1.0),
+				driver);
+		TripService trip2 = new TripService(user2, new Location(10.0, 6.0), new Location(15.0, 3.0),
+				driver);
+		TripService trip3 = new TripService(user3, new Location(10.0, 6.0), new Location(20.0, 4.0),
+				driver);
 		trip1.start();
 		trip2.start();
 		trip3.start();

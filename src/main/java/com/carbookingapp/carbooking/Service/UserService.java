@@ -1,10 +1,12 @@
 package com.carbookingapp.carbooking.Service;
 
+import java.util.List;
+
 import com.carbookingapp.carbooking.Models.User;
 import com.carbookingapp.carbooking.Repository.UserRepository;
 
 public class UserService {
-    private UserRepository ur;
+    private  static UserRepository ur;
 
     public UserService() {
         ur = new UserRepository();
@@ -14,4 +16,8 @@ public class UserService {
         ur.addUser(user);
         return user;
     }
+
+    public static List<User> getUsers() {
+        return ur.getUsers();
+      }
 }

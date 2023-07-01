@@ -1,5 +1,9 @@
 package com.carbookingapp.carbooking;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -13,11 +17,9 @@ import com.carbookingapp.carbooking.Repository.TripRepository;
 import com.carbookingapp.carbooking.Service.DriverService;
 import com.carbookingapp.carbooking.Service.UserService;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class CarBookingApplicationTests {
 	@Test
-	public void testChooseRider() {
+	void testChooseRider() {
 
 		UserService uService = new UserService();
 
@@ -41,25 +43,22 @@ class CarBookingApplicationTests {
 		// Create a new trip repository.
 		TripRepository repository = new TripRepository();
 		// User trying to get a ride.
-		/*
-		 * List<Driver> abiDrivers= repository.findRide("Abhishek", new Location(0, 0),
-		 * new Location(20, 1));
-		 * List<Driver> rahulDrivers= repository.findRide("Rahul", new Location(10, 0),
-		 * new Location(15, 3));
-		 * List<Driver> NandiniDrivers=repository.findRide("Nandini", new Location(15,
-		 * 6), new Location(20, 4));
-		 */
+	
+		  List<Driver> abiDrivers= repository.findRide(UserService.getUsers().get(0), new Location(0, 0),
+		  new Location(20, 1));
+		  List<Driver> rahulDrivers= repository.findRide(UserService.getUsers().get(1), new Location(10, 0),
+		  new Location(15, 3));
+		  List<Driver> NandiniDrivers=repository.findRide(UserService.getUsers().get(2) ,new Location(15,
+		  6), new Location(20, 4));
 
 		// User trying to book a ride.
-		repository.chooseRider("Abhishek", "Driver1", new Location(10.0, .0), new Location(20, 1));
-		assertEquals(repository.getRider().values().toString(), "[Abhishek]");
-
-		repository.chooseRider("Rahul", "Driver1", new Location(10, 0), new Location(15, 3));
-		assertNotEquals(repository.getRider().values().toString(), "[Rahul]");
-
-		repository.chooseRider("Nandini", "Driver1", new Location(15, 6), new Location(20, 4));
-		assertNotEquals(repository.getRider().values().toString(), "[Nandini]");
-	}
+	 	repository.chooseRider(uService.getUsers().get(0), driver, new Location(10.0, .0), new Location(20, 1));
+	 	assertEquals(repository.getRider().containsKey(uService.getUsers().get(0)), true);
+		repository.chooseRider(uService.getUsers().get(1), driver, new Location(10, 0), new Location(15, 3));
+	 	assertNotEquals(repository.getRider().containsKey(uService.getUsers().get(0)), false);
+	 	repository.chooseRider(uService.getUsers().get(2), driver, new Location(15, 6), new Location(20, 4));
+	 	assertEquals(repository.getRider().containsKey(uService.getUsers().get(2)), true);
+	 }
 
 	@Test
 	public void testFindRide() {
@@ -85,14 +84,14 @@ class CarBookingApplicationTests {
 
 		// Create a new trip repository.
 		TripRepository repository = new TripRepository();
-		// User trying to get a ride.
-		List<Driver> ride1 = repository.findRide("Abhishek", new Location(0, 0), new Location(20, 1));
+		//User trying to get a ride.
+		List<Driver> ride1 = repository.findRide(UserService.getUsers().get(0), new Location(0, 0), new Location(20, 1));
 		assertTrue(ride1.isEmpty());
 
-		List<Driver> ride2 = repository.findRide("Rahul", new Location(10, 0), new Location(15, 3));
+		List<Driver> ride2 = repository.findRide(UserService.getUsers().get(1), new Location(10, 0), new Location(15, 3));
 		assertEquals(ride2.get(0).getName(), "Driver1");
 
-		List<Driver> ride3 = repository.findRide("Nandini", new Location(15, 6), new Location(20, 4));
+		List<Driver> ride3 = repository.findRide(UserService.getUsers().get(2), new Location(15, 6), new Location(20, 4));
 		assertTrue(ride3.isEmpty());
 	}
 }
