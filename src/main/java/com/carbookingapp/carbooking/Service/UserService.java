@@ -6,7 +6,7 @@ import com.carbookingapp.carbooking.Models.User;
 import com.carbookingapp.carbooking.Repository.UserRepository;
 
 public class UserService {
-    private  static UserRepository ur;
+    private static UserRepository ur;
 
     public UserService() {
         ur = new UserRepository();
@@ -19,5 +19,5 @@ public class UserService {
 
     public static List<User> getUsers() {
         return ur.getUsers();
-      }
+    }
 }
