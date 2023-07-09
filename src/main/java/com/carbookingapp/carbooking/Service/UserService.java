@@ -12,9 +12,9 @@ public class UserService {
         ur = new UserRepository();
     }
 
-    public User addUser(User user) {
+    public boolean addUser(User user) {
         ur.addUser(user);
-        return user;
+        return true;
     }
 
     public static List<User> getUsers() {

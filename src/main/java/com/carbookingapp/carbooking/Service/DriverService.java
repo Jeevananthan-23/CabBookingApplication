@@ -12,9 +12,9 @@ public class DriverService {
     driverRepo = new DriverRepository();
   }
 
-  public Driver addDriver(Driver driver) {
+  public boolean addDriver(Driver driver) {
     driverRepo.addDrivers(driver);
-    return driver;
+    return true;
   }
 
   public static List<Driver> getDrivers() {

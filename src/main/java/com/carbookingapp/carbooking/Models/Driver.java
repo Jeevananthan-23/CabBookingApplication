@@ -4,10 +4,10 @@ public class Driver {
     private String name;
     private Gender gender;
     private int age;
-    private Vehicel car;
+    private Vehicle car;
     private Location currentlocation;
 
-    public Driver(String name, Gender gender, int age, Vehicel car, Location currentlocation) {
+    public Driver(String name, Gender gender, int age, Vehicle car, Location currentlocation) {
         this.name = name;
         this.gender = gender;
         this.age = age;
@@ -39,11 +39,11 @@ public class Driver {
         this.age = age;
     }
 
-    public Vehicel getCar() {
+    public Vehicle getCar() {
         return car;
     }
 
-    public void setCar(Vehicel car) {
+    public void setCar(Vehicle car) {
         this.car = car;
     }
 
@@ -57,10 +57,10 @@ public class Driver {
 
     @Override
     public String toString() {
-        return "{ Drivername='" + name + '\'' +
+        return "{ name='" + name + '\'' +
                 ", gender=" + gender +
                 ", age=" + age +
-                ", Vehicel=" + car +
+                ", Vehicle=" + car +
                 ", distance=" + currentlocation +
                 '}';
     }

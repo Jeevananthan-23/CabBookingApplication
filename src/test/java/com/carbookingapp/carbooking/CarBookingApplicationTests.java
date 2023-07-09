@@ -4,15 +4,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.*;
 
+import com.carbookingapp.carbooking.Service.TripService;
 import org.junit.jupiter.api.Test;
 
 import com.carbookingapp.carbooking.Models.Location;
 import com.carbookingapp.carbooking.Models.Driver;
 import com.carbookingapp.carbooking.Models.Gender;
 import com.carbookingapp.carbooking.Models.User;
-import com.carbookingapp.carbooking.Models.Vehicel;
+import com.carbookingapp.carbooking.Models.Vehicle;
 import com.carbookingapp.carbooking.Repository.TripRepository;
 import com.carbookingapp.carbooking.Service.DriverService;
 import com.carbookingapp.carbooking.Service.UserService;
@@ -29,11 +32,11 @@ class CarBookingApplicationTests {
 		uService.addUser(new User("Nandini", Gender.F, 22));
 
 		// Onboard 3 drivers to the application.
-		Driver driver = new Driver("Driver1", Gender.M, 22, new Vehicel("Swift", "KA-01-12345"),
+		Driver driver = new Driver("Driver1", Gender.M, 22, new Vehicle("Swift", "KA-01-12345"),
 				new Location(10.0, 1.0));
-		Driver driver2 = new Driver("Driver2", Gender.M, 29, new Vehicel("Swift", "KA-01-12345"),
+		Driver driver2 = new Driver("Driver2", Gender.M, 29, new Vehicle("Swift", "KA-01-12345"),
 				new Location(11.0, 10.0));
-		Driver driver3 = new Driver("Driver3", Gender.M, 24, new Vehicel("Swift", "KA-01-12345"),
+		Driver driver3 = new Driver("Driver3", Gender.M, 24, new Vehicle("Swift", "KA-01-12345"),
 				new Location(5.0, 3.0));
 		DriverService dService = new DriverService();
 		dService.addDriver(driver);
@@ -69,11 +72,11 @@ class CarBookingApplicationTests {
 		uService.addUser(new User("Nandini", Gender.F, 22));
 
 		// Onboard 3 drivers to the application.
-		Driver driver = new Driver("Driver1", Gender.M, 22, new Vehicel("Swift", "KA-01-12345"),
+		Driver driver = new Driver("Driver1", Gender.M, 22, new Vehicle("Swift", "KA-01-12345"),
 				new Location(10.0, 1.0));
-		Driver driver2 = new Driver("Driver2", Gender.M, 29, new Vehicel("Swift", "KA-01-12345"),
+		Driver driver2 = new Driver("Driver2", Gender.M, 29, new Vehicle("Swift", "KA-01-12345"),
 				new Location(11.0, 10.0));
-		Driver driver3 = new Driver("Driver3", Gender.M, 24, new Vehicel("Swift", "KA-01-12345"),
+		Driver driver3 = new Driver("Driver3", Gender.M, 24, new Vehicle("Swift", "KA-01-12345"),
 				new Location(5.0, 3.0));
 		DriverService dService = new DriverService();
 		dService.addDriver(driver);
@@ -91,5 +94,49 @@ class CarBookingApplicationTests {
 
 		List<Driver> ride3 = repository.findRide(UserService.getUsers().get(2), new Location(15, 6));
 		assertTrue(ride3.isEmpty());
+	}
+
+	@Test
+	public void testChoseRider() {
+		ExecutorService executorService = new ThreadPoolExecutor(3,3,0L,
+				TimeUnit.SECONDS, new LinkedBlockingQueue<>(3));
+		UserService uService = new UserService();
+
+		// Onboard 3 users.
+		uService.addUser(new User("Abhishek", Gender.M, 23));
+		uService.addUser(new User("Rahul", Gender.M, 29));
+		uService.addUser(new User("Nandini", Gender.F, 22));
+
+		// Onboard 3 drivers to the application.
+		Driver driver = new Driver("Driver1", Gender.M, 22, new Vehicle("Swift", "KA-01-12345"),
+				new Location(10.0, 1.0));
+		Driver driver2 = new Driver("Driver2", Gender.M, 29, new Vehicle("Swift", "KA-01-12345"),
+				new Location(11.0, 10.0));
+		Driver driver3 = new Driver("Driver3", Gender.M, 24, new Vehicle("Swift", "KA-01-12345"),
+				new Location(5.0, 3.0));
+		DriverService dService = new DriverService();
+		dService.addDriver(driver);
+		dService.addDriver(driver2);
+		dService.addDriver(driver3);
+
+		List<User> userList = uService.getUsers();
+		List<Driver> driverList = dService.getDrivers();
+
+		TripService trip1 = new TripService(userList.get(0), new Location(10, 0), new Location(15, 3), driverList.get(0) );
+		TripService trip2 = new TripService(userList.get(1), new Location(10, 0), new Location(15, 3), driverList.get(1) );
+		TripService trip3 = new TripService(userList.get(2), new Location(10, 0), new Location(15, 3), driverList.get(2) );
+
+		List<Callable<Integer>> callables = new ArrayList<>();
+		callables.add(trip1);
+		callables.add(trip2);
+		callables.add(trip3);
+
+		try {
+			executorService.invokeAll(callables);
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		} finally {
+			executorService.shutdown();
+		}
 	}
 }

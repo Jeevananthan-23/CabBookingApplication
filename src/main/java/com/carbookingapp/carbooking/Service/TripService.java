@@ -1,11 +1,14 @@
 package com.carbookingapp.carbooking.Service;
 
+import com.carbookingapp.carbooking.Exceptions.NoRideFound;
 import com.carbookingapp.carbooking.Models.Driver;
 import com.carbookingapp.carbooking.Models.Location;
 import com.carbookingapp.carbooking.Models.User;
 import com.carbookingapp.carbooking.Repository.TripRepository;
 
-public class TripService extends Thread {
+import java.util.concurrent.Callable;
+
+public class TripService implements Callable<Integer> {
   private User name;
   private Driver driverName;
   private Location source;
@@ -13,8 +16,9 @@ public class TripService extends Thread {
   private static TripRepository tripRepo;
 
   @Override
-  public void run() {
+  public Integer call() throws Exception {
     chooseRider(name, driverName);
+    return 0;
   }
 
   public TripService(User name, Location source, Location destination, Driver driverName) {
@@ -25,7 +29,12 @@ public class TripService extends Thread {
     tripRepo = new TripRepository();
   }
 
-  public void chooseRider(User username, Driver drivername) {
-    tripRepo.chooseRider(username, drivername, source, destination);
+  private void chooseRider(User username, Driver drivername) {
+    try {
+      tripRepo.chooseRider(username, drivername, source, destination);
+    } catch (NoRideFound e) {
+      throw new RuntimeException(e.getMessage());
+    }
   }
+
 }

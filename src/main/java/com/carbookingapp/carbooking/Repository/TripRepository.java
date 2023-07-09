@@ -45,16 +45,18 @@ public class TripRepository {
         System.out.println("Your location: " + source + " Cab location: " + driver.getCurrentlocation()
             + " Your Destination location: " + destination + "\n" +
             " Distance b/w you and cab: " + driver.getCurrentlocation().calculateDistanceInKilometer(source)
-            + "km ETA in mins: " + driver.getCurrentlocation().calculateETAInMins(source) + "\n" +
+            + "km ETA in mins: " + driver.getCurrentlocation().calculateETAInMinutes(source) + "\n" +
             " Distance b/w your source and destination: " + source.calculateDistanceInKilometer(destination)
-            + "km ETA in mins: " + source.calculateETAInMins(destination));
+            + "km ETA in mins: " + source.calculateETAInMinutes(destination));
         System.out.println("========================================");
         rider.get(username).clear();
         rider.get(username).add(driver);
         drivers.remove(rider.get(username).get(0));
       } else {
+        System.out.println("========================================");
         System.out.println("Sorry, " + username.getName() + " " + driver.getName() + " not available 😒");
         System.out.println("Instance you can book " + driversList.get(0).getName() + " 👍");
+        System.out.println("========================================");
       }
     } else {
       throw new NoRideFound("No ride found for: " + username.getName() + " 🙆");
