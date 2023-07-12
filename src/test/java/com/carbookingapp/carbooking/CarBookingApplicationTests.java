@@ -53,12 +53,12 @@ class CarBookingApplicationTests {
 				6));
 
 		// User trying to book a ride.
-		repository.chooseRider(uService.getUsers().get(0), driver, new Location(10.0, .0), new Location(20, 1));
-		assertEquals(repository.getRider().containsKey(uService.getUsers().get(0)), true);
-		repository.chooseRider(uService.getUsers().get(1), driver, new Location(10, 0), new Location(15, 3));
-		assertNotEquals(repository.getRider().containsKey(uService.getUsers().get(0)), false);
-		repository.chooseRider(uService.getUsers().get(2), driver, new Location(15, 6), new Location(20, 4));
-		assertEquals(repository.getRider().containsKey(uService.getUsers().get(2)), true);
+		repository.chooseRider(UserService.getUsers().get(0), driver, new Location(10.0, .0), new Location(20, 1));
+        assertTrue(repository.getRider().containsKey(UserService.getUsers().get(0)));
+		repository.chooseRider(UserService.getUsers().get(1), driver, new Location(10, 0), new Location(15, 3));
+		assertNotEquals(repository.getRider().containsKey(UserService.getUsers().get(0)), false);
+		repository.chooseRider(UserService.getUsers().get(2), driver, new Location(15, 6), new Location(20, 4));
+        assertTrue(repository.getRider().containsKey(UserService.getUsers().get(2)));
 	}
 
 	@Test
@@ -100,6 +100,7 @@ class CarBookingApplicationTests {
 	public void testChoseRider() {
 		ExecutorService executorService = new ThreadPoolExecutor(3,3,0L,
 				TimeUnit.SECONDS, new LinkedBlockingQueue<>(3));
+
 		UserService uService = new UserService();
 
 		// Onboard 3 users.
@@ -119,8 +120,8 @@ class CarBookingApplicationTests {
 		dService.addDriver(driver2);
 		dService.addDriver(driver3);
 
-		List<User> userList = uService.getUsers();
-		List<Driver> driverList = dService.getDrivers();
+		List<User> userList = UserService.getUsers();
+		List<Driver> driverList = DriverService.getDrivers();
 
 		TripService trip1 = new TripService(userList.get(0), new Location(10, 0), new Location(15, 3), driverList.get(0) );
 		TripService trip2 = new TripService(userList.get(1), new Location(10, 0), new Location(15, 3), driverList.get(1) );

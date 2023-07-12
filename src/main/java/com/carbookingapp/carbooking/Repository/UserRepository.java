@@ -4,7 +4,7 @@ import com.carbookingapp.carbooking.Models.User;
 import java.util.*;
 
 public class UserRepository {
-    private List<User> users;
+    private final List<User> users;
 
     public UserRepository() {
         this.users = new ArrayList<>();

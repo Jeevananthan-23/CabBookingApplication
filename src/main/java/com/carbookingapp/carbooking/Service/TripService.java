@@ -9,31 +9,31 @@ import com.carbookingapp.carbooking.Repository.TripRepository;
 import java.util.concurrent.Callable;
 
 public class TripService implements Callable<Integer> {
-  private User name;
-  private Driver driverName;
-  private Location source;
-  private Location destination;
+  private final User user;
+  private final Driver driver;
+  private final Location source;
+  private final Location destination;
   private static TripRepository tripRepo;
 
   @Override
-  public Integer call() throws Exception {
-    chooseRider(name, driverName);
+  public Integer call() {
+    chooseRider(user, driver);
     return 0;
   }
 
-  public TripService(User name, Location source, Location destination, Driver driverName) {
-    this.name = name;
+  public TripService(User user, Location source, Location destination, Driver driver) {
+    this.user = user;
     this.source = source;
     this.destination = destination;
-    this.driverName = driverName;
+    this.driver = driver;
     tripRepo = new TripRepository();
   }
 
-  private void chooseRider(User username, Driver drivername) {
+  private void chooseRider(User user, Driver driver) throws NoRideFound{
     try {
-      tripRepo.chooseRider(username, drivername, source, destination);
+      tripRepo.chooseRider(user, driver, source, destination);
     } catch (NoRideFound e) {
-      throw new RuntimeException(e.getMessage());
+      System.out.println(e.getMessage());
     }
   }
 

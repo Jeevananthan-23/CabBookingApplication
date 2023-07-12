@@ -40,19 +40,25 @@ public class CarBookingApplication {
 		System.out.println(driver);
 
 		TripService trip1 = new TripService(user, new Location(10.0, 6.0), new Location(20.0, 1.0),
-				driver);
-		TripService trip2 = new TripService(user2, new Location(10.0, 6.0), new Location(15.0, 3.0),
-				driver2);
-		TripService trip3 = new TripService(user3, new Location(10.0, 6.0), new Location(20.0, 4.0),
 				driver3);
+		TripService trip2 = new TripService(user2, new Location(10.0, 6.0), new Location(15.0, 3.0),
+				driver);
+		TripService trip3 = new TripService(user3, new Location(10.0, 6.0), new Location(20.0, 4.0),
+				driver);
 
 		List<Callable<Integer>> callables = new ArrayList<>();
 		callables.add(trip1);
 		callables.add(trip2);
 		callables.add(trip3);
 
-		ExecutorService executorService = new ThreadPoolExecutor(callables.size(), callables.size(), 0L, TimeUnit.MILLISECONDS,
-				new LinkedBlockingQueue<Runnable>());
+		executor(callables);
+
+	}
+
+	private static void executor(List<Callable<Integer>> callables) throws InterruptedException {
+
+		ExecutorService executorService = new ThreadPoolExecutor(callables.size(), callables.size(), 0L,
+				TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
 		try {
 			executorService.invokeAll(callables);
 		} catch (InterruptedException e) {
@@ -60,5 +66,7 @@ public class CarBookingApplication {
 		} finally {
 			executorService.shutdown();
 		}
+
+		executorService.awaitTermination(100,TimeUnit.MILLISECONDS);
 	}
 }

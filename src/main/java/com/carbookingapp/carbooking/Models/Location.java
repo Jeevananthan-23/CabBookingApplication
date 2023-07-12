@@ -1,5 +1,8 @@
 package com.carbookingapp.carbooking.Models;
 
+import java.util.Timer;
+import java.util.concurrent.TimeUnit;
+
 public class Location {
 
   public static final double AVERAGE_RADIUS_OF_EARTH_KM = 6371;
@@ -18,7 +21,7 @@ public class Location {
   }
 
   // Haversine formula
-  public int calculateDistanceInKilometer(Location location2) {
+  public long calculateDistanceInKilometer(Location location2) {
 
     double latDistance = Math.toRadians(this.x - location2.x);
     double lngDistance = Math.toRadians(this.y - location2.y);
@@ -29,7 +32,7 @@ public class Location {
 
     double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-    return (int) (Math.round(AVERAGE_RADIUS_OF_EARTH_KM * c));
+    return Math.round(AVERAGE_RADIUS_OF_EARTH_KM * c);
   }
 
   /*
@@ -39,8 +42,8 @@ public class Location {
    * avg. speed with public transportation 30km/h
    */
   // eta_in_minutes = (distance_in_km * 60) / constant_estimated_speed_in_km_per_h
-  public int calculateETAInMinutes(Location location) {
-    return (int) ((calculateDistanceInKilometer(location) * 60) / AVERAGE_SPEED_OF_CAR_KM);
+  public double calculateETAInMinutes(Location location) {
+    return  (calculateDistanceInKilometer(location) * 60) / AVERAGE_SPEED_OF_CAR_KM;
   }
 
   @Override

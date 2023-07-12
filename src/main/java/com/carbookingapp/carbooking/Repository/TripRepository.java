@@ -8,12 +8,14 @@ import com.carbookingapp.carbooking.Models.Driver;
 import com.carbookingapp.carbooking.Models.Location;
 import com.carbookingapp.carbooking.Models.User;
 import com.carbookingapp.carbooking.Service.DriverService;
+import org.assertj.core.util.VisibleForTesting;
 
 public class TripRepository {
-  private static Map<User, List<Driver>> rider = new HashMap<>();
+  private static final Map<User, List<Driver>> rider = new HashMap<>();
   public static final Double MAX_ALLOWED_TRIP_MATCHING_DISTANCE = 5.0;
-  private static List<Driver> drivers = DriverService.getDrivers();
+  private static final List<Driver> drivers = DriverService.getDrivers();
 
+  @VisibleForTesting
   public Map<User, List<Driver>> getRider() {
     return rider;
   }
@@ -21,8 +23,7 @@ public class TripRepository {
   public List<Driver> findRide(User name, Location source) {
     List<Driver> result = new ArrayList<>();
     for (Driver cab : drivers) {
-      if ((cab.getCurrentlocation().distance(source) <= MAX_ALLOWED_TRIP_MATCHING_DISTANCE)
-          && !rider.containsKey(name)) {
+      if (cab.getCurrentlocation().distance(source) <= MAX_ALLOWED_TRIP_MATCHING_DISTANCE) {
         result.add(cab);
         rider.put(name, result);
       }
@@ -30,18 +31,16 @@ public class TripRepository {
     return result;
   }
 
-  public synchronized void chooseRider(User username, Driver driver, Location source, Location destination)
+  public synchronized void chooseRider(User user, Driver driver, Location source, Location destination)
       throws NoRideFound {
     List<Driver> driversList;
-    driversList = findRide(username, source);
+    driversList = findRide(user, source);
     if (!driversList.isEmpty()) {
       AtomicBoolean isDriverNameAllocated = new AtomicBoolean(false);
-      isDriverNameAllocated.set(driversList.stream().anyMatch(x -> {
-        return x.getName().equals(driver.getName());
-      }));
+      isDriverNameAllocated.set(driversList.stream().anyMatch(x -> x.getName().equals(driver.getName())));
       if (isDriverNameAllocated.get()) {
         System.out.println("========================================");
-        System.out.println("Hello " + username.getName() + ", your booking on " + driver.getName() + " successful 🙂");
+        System.out.println("Hello " + user.getName() + ", your booking on " + driver.getName() + " successful 🙂");
         System.out.println("Your location: " + source + " Cab location: " + driver.getCurrentlocation()
             + " Your Destination location: " + destination + "\n" +
             " Distance b/w you and cab: " + driver.getCurrentlocation().calculateDistanceInKilometer(source)
@@ -49,17 +48,17 @@ public class TripRepository {
             " Distance b/w your source and destination: " + source.calculateDistanceInKilometer(destination)
             + "km ETA in mins: " + source.calculateETAInMinutes(destination));
         System.out.println("========================================");
-        rider.get(username).clear();
-        rider.get(username).add(driver);
-        drivers.remove(rider.get(username).get(0));
+        rider.get(user).clear();
+        rider.get(user).add(driver);
+        drivers.remove(rider.get(user).get(0));
       } else {
         System.out.println("========================================");
-        System.out.println("Sorry, " + username.getName() + " " + driver.getName() + " not available 😒");
+        System.out.println("Sorry, " + user.getName() + " " + driver.getName() + " not available 😒");
         System.out.println("Instance you can book " + driversList.get(0).getName() + " 👍");
         System.out.println("========================================");
       }
     } else {
-      throw new NoRideFound("No ride found for: " + username.getName() + " 🙆");
+      throw new NoRideFound("No ride found for: " + user.getName() + " 🙆");
     }
   }
 }
